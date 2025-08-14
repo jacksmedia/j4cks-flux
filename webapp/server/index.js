@@ -26,22 +26,19 @@ console.log('=== Environment Debug ===');
 console.log('HF_TOKEN type:', typeof process.env.HF_TOKEN);
 console.log('HF_TOKEN value:', process.env.HF_TOKEN ? 'EXISTS (hidden for security)' : 'MISSING');
 
-// Validate token before creating client
+// Validates token before creating client
 if (!process.env.HF_TOKEN) {
   console.error('❌ HF_TOKEN is missing from environment variables');
   process.exit(1);
 }
-
 if (typeof process.env.HF_TOKEN !== 'string') {
   console.error('❌ HF_TOKEN is not a string:', typeof process.env.HF_TOKEN);
   process.exit(1);
 }
-
 if (!process.env.HF_TOKEN.startsWith('hf_')) {
   console.error('❌ HF_TOKEN does not start with hf_');
   process.exit(1);
 }
-
 console.log('✅ HF_TOKEN validation passed');
 
 // Initialize HuggingFace client with explicit provider
@@ -81,7 +78,7 @@ const imageGenerationLimiter = rateLimit({
 // General API rate limiter (more lenient for non-generation endpoints)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  max: 10, // Limit each IP to 10 requests per windowMs
   message: {
     error: 'Too many API requests',
     message: 'Too many requests from this IP, please try again later.'
@@ -101,10 +98,10 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Trust proxy for accurate IP addresses (important for Vercel)
+// Trust proxy for accurate IP addresses (for Vercel: maybe unneeded now)
 app.set('trust proxy', 1);
 
-// Apply general rate limiting to all API routes
+// Apply general rate limiting to all API routes!
 app.use('/api', apiLimiter);
 
 // Serve React app
@@ -145,7 +142,7 @@ app.get('/api/rate-limit-status', apiLimiter, (req, res) => {
   });
 });
 
-// Test different providers endpoint
+// Test different providers' endpoints
 app.post('/api/test-providers', apiLimiter, async (req, res) => {
   const providers = ['hf', 'fal-ai'];
   const results = {};
@@ -184,7 +181,7 @@ app.post('/api/test-providers', apiLimiter, async (req, res) => {
   });
 });
 
-// Image generation endpoint with strict rate limiting
+// Image generation endpoint: strict rate limiting
 app.post('/query', imageGenerationLimiter, async (req, res) => {
   console.log('=== /query endpoint hit ===');
   console.log('IP:', req.ip);
