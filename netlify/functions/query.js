@@ -1,9 +1,10 @@
 import { initHFClient } from '../../utils/huggingface';
-import { imageGenerationLimiter } from '../../utils/rateLimit';
+import { checkRateLimit } from '../../utils/rateLimit';
 
 export const handler = async (event) => {
-  // Rate limiting (Netlify-specific implementation)
-  if (await rateLimitExceeded(event)) {
+  const ip = event.headers['client-ip'] || event.headers['x-nf-request-id'];
+  
+  if (checkRateLimit(ip)) {
     return {
       statusCode: 429,
       body: JSON.stringify({ error: "Rate limit exceeded" })
