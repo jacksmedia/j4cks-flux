@@ -89,8 +89,16 @@ const apiLimiter = rateLimit({
 });
 
 app.use(express.json({ limit: '10mb' }));
-app.use(cors());
-app.use(cors({ origin: 'https://j4cks-flux.vercel.app' }));
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   methods: ['GET', 'POST', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// }));
+app.use(cors({
+  origin: 'https://flux-demo.vercel.app',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Trust proxy for accurate IP addresses (important for Vercel)

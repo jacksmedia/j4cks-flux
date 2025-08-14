@@ -1,6 +1,6 @@
 {
-  "name": "j4cks-flux",
-  "version": "1.0.0",
+  "name": "flux-demo",
+  "version": "0.3.0",
   "description": "HuggingFace endpoint demo",
   "keywords": [
     "HuggingFace",
@@ -16,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test",
-    "build": "(cd ./webapp/server && npm install) && node ./webapp/server/index.js & (cd ./webapp/client && npm install && npm run build) && vite build && ln -s public dist",
+    "build": "(cd ./webapp/server && npm install) && node index.js & (cd ./webapp/client && npm install && npm run build) && vite build && ln -s public dist",
     "dev": "concurrently \"cd ./webapp/server && npm run dev\" \"cd ./webapp/client && npm run dev\""  },
   "dependencies": {
     "cors": "^2.8.5",
