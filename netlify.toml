@@ -8,5 +8,5 @@
 [build.environment]
   NODE_ENV = "production"
 
-[plugins]
+[[plugins]]
   package = "@netlify/vite-plugin"
