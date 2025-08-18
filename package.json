@@ -2,7 +2,10 @@
   "name": "flux-demo",
   "version": "0.5.5",
   "description": "HuggingFace endpoint demo",
-  "keywords": [ "HuggingFace", "flux" ],
+  "keywords": [
+    "HuggingFace",
+    "flux"
+  ],
   "repository": {
     "type": "git",
     "url": "github.com/jacksmedia/j4cks-flux"
@@ -21,11 +24,12 @@
     "vite": "^7.1.2"
   },
   "devDependencies": {
-    "ntl": "^5.1.0",
+    "@netlify/vite-plugin": "^2.5.4",
     "eslint": "^9.10.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0"
+    "globals": "^16.3.0",
+    "ntl": "^5.1.0"
   }
 }
