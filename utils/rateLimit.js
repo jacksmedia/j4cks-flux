@@ -21,19 +21,3 @@ export const checkRateLimit = (ip) => {
   record.count += 1;
   return record.count > max;
 };
-
-
-
-// export const handler = async () => {
-//   return {
-//     statusCode: 200,
-//     body: JSON.stringify({
-//       limits: {
-//         imageGeneration: {
-//           windowSeconds: process.env.NODE_ENV === 'production' ? 14400 : 60, // 4 hrs vs 1 min
-//           maxRequests: process.env.NODE_ENV === 'production' ? 3 : 1 // 3 per 4 hrs vs 1 per min
-//         }
-//       }
-//     })
-//   };
-// };

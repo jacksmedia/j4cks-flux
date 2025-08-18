@@ -1,25 +1,31 @@
 {
   "name": "flux-demo",
-  "version": "0.5.0",
+  "version": "0.5.5",
   "description": "HuggingFace endpoint demo",
-  "keywords": [
-    "HuggingFace",
-    "flux"
-  ],
+  "keywords": [ "HuggingFace", "flux" ],
   "repository": {
     "type": "git",
-    "url": "github.com/jacksmedia/template"
+    "url": "github.com/jacksmedia/j4cks-flux"
   },
   "license": "MIT",
   "author": "jacksmedia",
-  "type": "commonjs",
-  "main": "index.js",
   "scripts": {
-    "test": "npm run test",
-    "build": "cd webapp/client && npm run build",
-    "dev": "cd webapp/client && npm run dev"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "ntl": "^5.1.0"
+    "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^7.1.2"
+  },
+  "devDependencies": {
+    "ntl": "^5.1.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0"
   }
 }

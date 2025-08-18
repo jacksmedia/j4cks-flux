@@ -7,12 +7,11 @@ const App = () => {
   const [error, setError] = useState(null);
   const [customPrompt, setCustomPrompt] = useState('a shattered cyberpunk city');
 
-
     // Tests server connection
   const testServer = async () => {
     try {
       console.log('Testing server connectivity...');
-      const response = await fetch('http://localhost:3001/test');
+      const response = await fetch('http://localhost:3001/api/test');
       const data = await response.json();
       console.log('Server test successful:', data);
       alert(`Server is working! Response: ${data.message}`);
@@ -26,7 +25,7 @@ const App = () => {
   const testHealth = async () => {
     try {
       console.log('Testing POST endpoint...');
-      const response = await fetch('http://localhost:3001/health', {
+      const response = await fetch('http://localhost:3001/api/health', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ test: 'data' }),
@@ -46,7 +45,7 @@ const App = () => {
     setImageData(null);
 
     try {
-      const response = await fetch('http://localhost:3001/query', {
+      const response = await fetch('http://localhost:3001/api/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,39 +74,7 @@ const App = () => {
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
       <h1>HuggingFace FLUX Pixel Art Generator</h1>
       
-      {/* Debug buttons
-      <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>Debug Tools:</h3>
-        <button 
-          onClick={testServer}
-          style={{
-            padding: '0.5rem 1rem',
-            margin: '0.5rem',
-            backgroundColor: '#0c3516ff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Test Server (GET)
-        </button>
-        <button 
-          onClick={testHealth}
-          style={{
-            padding: '0.5rem 1rem',
-            margin: '0.5rem',
-            backgroundColor: '#117a30ff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Test POST Endpoint
-        </button>
-      </div> */}
-      
+     
       {/* main app features */}
             {/* Custom prompt input */}
       <div style={{ marginBottom: '2rem' }}>
