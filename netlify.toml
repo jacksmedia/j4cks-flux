@@ -1,5 +1,5 @@
 [build]
-  command = "cd webapp/client && npx vite build"
+  command = "cd webapp/client && npm run build"
   publish = "webapp/client/dist"
   functions = "netlify/functions"
 
