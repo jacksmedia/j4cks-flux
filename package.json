@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@netlify/vite-plugin": "^2.5.4",
+    "vite": "^7.1.2",
     "eslint": "^9.10.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.2.0",
