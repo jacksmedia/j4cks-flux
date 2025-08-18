@@ -1,8 +1,11 @@
 [build]
-  command = "cd webapp/client && npm run build"
+  command = "cd webapp/client && npx vite build"
   publish = "webapp/client/dist"
   functions = "netlify/functions"
 
 [build.environment]
   NODE_ENV = "production"
   HF_TOKEN = "@hf_token"
+
+[[plugins]]
+  package = "@netlify/vite-plugin"
