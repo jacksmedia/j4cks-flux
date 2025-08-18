@@ -5,5 +5,4 @@ functions = "netlify/functions"
 
 [build.environment]
   NODE_ENV = "production"
-  # Reference secrets from UI:
   HF_TOKEN = "@hf_token"
