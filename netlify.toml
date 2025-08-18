@@ -1,7 +1,7 @@
 [build]
-command = "cd webapp/client && npm run build"
-publish = "webapp/client/dist"
-functions = "netlify/functions"
+  command = "cd webapp/client && npx vite build"
+  publish = "webapp/client/dist"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_ENV = "production"
