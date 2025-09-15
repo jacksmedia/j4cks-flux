@@ -11,7 +11,7 @@ const App = () => {
   const testServer = async () => {
     try {
       console.log('Testing server connectivity...');
-      const response = await fetch('http://localhost:3001/api/test');
+      const response = await fetch('/.netlify/functions/test');
       const data = await response.json();
       console.log('Server test successful:', data);
       alert(`Server is working! Response: ${data.message}`);
@@ -25,7 +25,7 @@ const App = () => {
   const testHealth = async () => {
     try {
       console.log('Testing POST endpoint...');
-      const response = await fetch('http://localhost:3001/api/health', {
+      const response = await fetch('/.netlify/functions/health', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ test: 'data' }),
@@ -45,7 +45,7 @@ const App = () => {
     setImageData(null);
 
     try {
-      const response = await fetch('http://localhost:3001/api/query', {
+      const response = await fetch('/.netlify/functions/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

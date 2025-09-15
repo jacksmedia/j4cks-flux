@@ -1,3 +1,4 @@
+// JSON wrapper
 export const handler = async () => {
   return {
     statusCode: 200,
