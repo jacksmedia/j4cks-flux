@@ -95,7 +95,7 @@ app.use(express.json({ limit: '10mb' }));
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
 app.use(cors({
-  origin: 'https://flux-demo.vercel.app',
+  origin: 'https://flux4.vercel.app',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
