@@ -7,8 +7,10 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import 'dotenv/config';
 
+const PORT = process.env.PORT || 3001; // Render wants PORT
+
 const app = express();
-const port = 3001;
+// const port = 3001;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Environment-based rate limiting configuration
@@ -272,9 +274,19 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log('=== Server Started ===');
-  console.log(`🚀 Server running on http://localhost:${port}`);
-  console.log(`📊 Rate limiting: ${RATE_LIMIT_MAX} requests per ${RATE_LIMIT_WINDOW / 1000}s`);
-  console.log(`🔒 Environment: ${isDevelopment ? 'Development' : 'Production'}`);
+
+// Render version of app.listen():
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
+
+
+
+// original dev config
+
+// app.listen(port, () => {
+//   console.log('=== Server Started ===');
+//   console.log(`🚀 Server running on http://localhost:${port}`);
+//   console.log(`📊 Rate limiting: ${RATE_LIMIT_MAX} requests per ${RATE_LIMIT_WINDOW / 1000}s`);
+//   console.log(`🔒 Environment: ${isDevelopment ? 'Development' : 'Production'}`);
+// });
