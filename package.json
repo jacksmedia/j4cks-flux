@@ -17,14 +17,14 @@
   "scripts": {
     "test": "npm run test",
     "build": "(cd webapp/server && npm install && npm run build) & (cd webapp/client && npm install && npm run build)",
-    "dev": "concurrently \"cd ./webapp/server && npm run dev\" \"cd ./webapp/client && npm run dev\""  },
+    "dev": "concurrently \"cd ./webapp/server && npm run dev\" \"cd ./webapp/client && npm run dev\""
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
     "@vitejs/plugin-react": "^4.0.0"
   }
 }

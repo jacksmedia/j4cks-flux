@@ -37,11 +37,6 @@ if (typeof process.env.HF_TOKEN !== 'string') {
   process.exit(1);
 }
 
-if (!process.env.HF_TOKEN.startsWith('hf_')) {
-  console.error('❌ HF_TOKEN does not start with hf_');
-  process.exit(1);
-}
-
 console.log('✅ HF_TOKEN validation passed');
 
 // Initialize HuggingFace client with explicit provider
@@ -95,7 +90,7 @@ app.use(express.json({ limit: '10mb' }));
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
 app.use(cors({
-  origin: 'https://flux-demo-chi.vercel.app',
+  origin: ['https://j4cks-flux.onrender.com', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
