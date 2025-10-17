@@ -46,7 +46,7 @@ const App = () => {
     setImageData(null);
 
     try {
-      const response = await fetch('http://localhost:3001/query', {
+      const response = await fetch('/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
