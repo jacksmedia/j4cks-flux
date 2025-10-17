@@ -94,7 +94,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Trust proxy for accurate IP addresses (important for Vercel)
 app.set('trust proxy', 1);
