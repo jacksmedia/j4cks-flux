@@ -13,7 +13,7 @@ export default defineConfig({
       '/test': 'http://localhost:3001',
       '/health': 'http://localhost:3001',
       '/query': 'http://localhost:3001',
-      '/api': 'http://localhost:3001' // deployment convention in vercel
-    }
+      '/api': 'http://localhost:3001',
+     }
   }
-})
+});
