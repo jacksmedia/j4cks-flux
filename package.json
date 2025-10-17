@@ -16,15 +16,29 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test",
-    "build": "(cd webapp/server && npm install && npm run build) & (cd webapp/client && npm install && npm run build)",
+    "build": "cd webapp/client && npm install && npm run build && cd ../server && npm install",
     "dev": "concurrently \"cd ./webapp/server && npm run dev\" \"cd ./webapp/client && npm run dev\""
   },
   "dependencies": {
+    "@huggingface/inference": "^4.6.1",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "fs": "^0.0.1-security"
+    "express-rate-limit": "^8.0.1",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0"
+    "@eslint/js": "^9.30.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "vite": "^7.1.2"
   }
 }
