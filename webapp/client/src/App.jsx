@@ -1,11 +1,12 @@
 // client/src/App.jsx
 import { useState } from 'react';
+import './App.css';
 
 const App = () => {
   const [imageData, setImageData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [customPrompt, setCustomPrompt] = useState('a shattered cyberpunk city');
+  const [customPrompt, setCustomPrompt] = useState('colorful aesthetic');
 
 
     // Tests server connection
@@ -51,7 +52,7 @@ const App = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           // Prompt uses LoRA trigger word + pixel art styling in lieu of accessing LoRA
-          prompt: '(in the style of umempart:1.5), (pixel art, pixelated:1.4), (vivid colours:1.3) (masterpiece, exceptional, best aesthetic, best quality, masterpiece, extremely detailed:1.2)'
+          prompt: '(in the style of umempart:1.5), (pixel art 1.3, pixelated:1.5), (vivid colours:1.1), (best quality, masterpiece, extremely detailed:1.2)'
         }),
       });
 
@@ -75,6 +76,14 @@ const App = () => {
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
       <h1>HuggingFace FLUX Pixel Art Generator</h1>
       
+      {/* throbbing annular  */}
+      {loading && (
+        <div className='annular-container'>
+          <div className='annular'></div>
+        </div>
+      )}
+
+
       {/* Debug buttons
       <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <h3>Debug Tools:</h3>
