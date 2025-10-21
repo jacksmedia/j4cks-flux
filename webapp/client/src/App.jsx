@@ -24,22 +24,22 @@ const App = () => {
   };
 
   // Tests request
-  const testHealth = async () => {
-    try {
-      console.log('Testing POST endpoint...');
-      const response = await fetch('http://localhost:3001/health', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ test: 'data' }),
-      });
-      const data = await response.json();
-      console.log('Health check successful:', data);
-      alert(`Health check passed! Server received: ${JSON.stringify(data.body)}`);
-    } catch (error) {
-      console.error('Health check failed:', error);
-      alert(`Health check failed: ${error.message}`);
-    }
-  };
+  // const testHealth = async () => {
+  //   try {
+  //     console.log('Testing POST endpoint...');
+  //     const response = await fetch('http://localhost:3001/health', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ test: 'data' }),
+  //     });
+  //     const data = await response.json();
+  //     console.log('Health check successful:', data);
+  //     alert(`Health check passed! Server received: ${JSON.stringify(data.body)}`);
+  //   } catch (error) {
+  //     console.error('Health check failed:', error);
+  //     alert(`Health check failed: ${error.message}`);
+  //   }
+  // };
 
   const handleQuery = async () => {
     setLoading(true);
@@ -52,7 +52,7 @@ const App = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           // Prompt uses LoRA trigger word + pixel art styling in lieu of accessing LoRA
-          prompt: '(in the style of umempart:1.5), (pixel art 1.3, pixelated:1.5), (vivid colours:1.1), (best quality, masterpiece, extremely detailed:1.2)'
+          prompt: `${customPrompt}, (in the style of umempart:1.5), (pixel art 1.3, pixelated:1.5), (vivid colours:1.1), (best quality, masterpiece, extremely detailed:1.2)`
         }),
       });
 
