@@ -91,16 +91,16 @@ const apiLimiter = rateLimit({
 });
 
 app.use(express.json({ limit: '10mb' }));
-// app.use(cors({
-//   origin: 'http://localhost:3000',
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
 app.use(cors({
-  origin: 'https://flux4.vercel.app',
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+// app.use(cors({
+//   origin: 'https://localhost:3001',
+//   methods: ['GET', 'POST', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// }));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Trust proxy for accurate IP addresses (important for Vercel)
@@ -148,48 +148,49 @@ app.get('/api/rate-limit-status', apiLimiter, (req, res) => {
 });
 
 // Test different providers endpoint
-app.post('/api/test-providers', apiLimiter, async (req, res) => {
-  const providers = ['hf', 'fal-ai'];
-  const results = {};
+// app.post('/api/test-providers', apiLimiter, async (req, res) => {
+//   const providers = ['hf', 'fal-ai'];
+//   const results = {};
   
-  for (const provider of providers) {
-    try {
-      console.log(`Testing provider: ${provider}`);
-      const testClient = new InferenceClient({
-        apiKey: process.env.HF_TOKEN,
-        provider: provider
-      });
+//   for (const provider of providers) {
+//     try {
+//       console.log(`Testing provider: ${provider}`);
+//       const testClient = new InferenceClient({
+//         apiKey: process.env.HF_TOKEN,
+//         provider: provider
+//       });
       
-      // Quick test with a simple prompt
-      await testClient.textToImage({
-        model: "black-forest-labs/FLUX.1-schnell",
-        inputs: "test image"
-      });
+//       // Quick test with a simple prompt
+//       await testClient.textToImage({
+//         model: "black-forest-labs/FLUX.1-schnell",
+//         inputs: "test image"
+//       });
       
-      results[provider] = { status: 'working', error: null };
-      console.log(`✅ Provider ${provider} working`);
+//       results[provider] = { status: 'working', error: null };
+//       console.log(`✅ Provider ${provider} working`);
       
-    } catch (error) {
-      results[provider] = { 
-        status: 'failed', 
-        error: error.message,
-        type: error.constructor.name 
-      };
-      console.log(`❌ Provider ${provider} failed:`, error.message);
-    }
-  }
+//     } catch (error) {
+//       results[provider] = { 
+//         status: 'failed', 
+//         error: error.message,
+//         type: error.constructor.name 
+//       };
+//       console.log(`❌ Provider ${provider} failed:`, error.message);
+//     }
+//   }
   
-  res.json({
-    message: 'Provider test results',
-    results: results,
-    timestamp: new Date().toISOString()
-  });
-});
+//   res.json({
+//     message: 'Provider test results',
+//     results: results,
+//     timestamp: new Date().toISOString()
+//   });
+// });
 
 // Image generation endpoint with strict rate limiting
 app.post('/query', imageGenerationLimiter, async (req, res) => {
   console.log('=== /query endpoint hit ===');
   console.log('IP:', req.ip);
+  // const { model, prompt} = req.body;
   console.log('Request body:', req.body);
   
   try {
@@ -223,7 +224,7 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
       });
       
       result = await hfClient.textToImage({
-        model: "black-forest-labs/FLUX.1-schnell",
+        model: req.body.model,
         inputs: req.body.prompt
       });
       console.log('✅ HF provider successful');
@@ -252,7 +253,7 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
     res.json({ 
       imageData: base64Image,
       meta: {
-        model: "black-forest-labs/FLUX.1-schnell",
+        model: req.body.model,
         timestamp: new Date().toISOString(),
         promptLength: req.body.prompt.length
       }
@@ -279,14 +280,3 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
-
-
-// original dev config
-
-// app.listen(port, () => {
-//   console.log('=== Server Started ===');
-//   console.log(`🚀 Server running on http://localhost:${port}`);
-//   console.log(`📊 Rate limiting: ${RATE_LIMIT_MAX} requests per ${RATE_LIMIT_WINDOW / 1000}s`);
-//   console.log(`🔒 Environment: ${isDevelopment ? 'Development' : 'Production'}`);
-// });
