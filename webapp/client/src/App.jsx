@@ -6,7 +6,7 @@ const App = () => {
   const [imageData, setImageData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [customPrompt, setCustomPrompt] = useState('colorful aesthetic');
+  const [customPrompt, setCustomPrompt] = useState('iconic tall grey castle near the blue lake');
 
 
   // Multiple HF models available
@@ -66,18 +66,18 @@ const App = () => {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>HuggingFace Text-to-Image Generator</h1>
+      <h1>Simple Text-to-Image Generator</h1>
       
       {/* UX:  Custom prompt input */}
       <div style={{ marginBottom: '2rem' }}>
         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-          Describe what you want to create:
+          Describe what you want to portray:
         </label>
         <input
           type="text"
           value={customPrompt}
           onChange={(e) => setCustomPrompt(e.target.value)}
-          placeholder="a shattered cyberpunk city"
+          placeholder="iconic tall grey castle near the blue lake"
           style={{
             width: '100%',
             padding: '0.75rem',
@@ -90,7 +90,8 @@ const App = () => {
           maxLength={200}
         />
         <small style={{ color: '#666', fontSize: '0.9rem' }}>
-          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model
+          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model<br/>
+          Rate limiting is in effect to prevent abuse
         </small>
         
         {/* OPTION:  Show full prompt preview -- disabled */}
@@ -113,7 +114,7 @@ const App = () => {
 
       
       {/* UX:  Render multiple buttons with premade prompt styling */}
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+      <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginTop: '1rem', justifyContent: 'center' }}>
         {artStyles.map(style => (
           <button
             key={style.id}
@@ -135,7 +136,7 @@ const App = () => {
 
 
       <h3>
-        {loading ? 'Generating Pixel Art...' : 'Generate Pixel Art'}
+        {loading ? 'Generating... Please wait...' : 'Open source image models by HuggingFace inference providers'}
       </h3>
       
       {error && (
