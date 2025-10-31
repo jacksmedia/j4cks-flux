@@ -1,0 +1,21 @@
+{
+	"siteId": "693476c0-a80b-47a6-8cee-5662649a5714",
+	"geolocation": {
+		"data": {
+			"city": "Seattle",
+			"country": {
+				"code": "US",
+				"name": "United States"
+			},
+			"subdivision": {
+				"code": "WA",
+				"name": "Washington"
+			},
+			"timezone": "America/Los_Angeles",
+			"latitude": 47.6109,
+			"longitude": -122.3303,
+			"postalCode": "98160"
+		},
+		"timestamp": 1757947372897
+	}
+}

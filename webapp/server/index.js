@@ -7,8 +7,10 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import 'dotenv/config';
 
+const PORT = process.env.PORT || 3001; // Render wants PORT
+
 const app = express();
-const PORT = process.env.PORT || 3001;
+// const port = 3001;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Environment-based rate limiting configuration
@@ -84,11 +86,6 @@ const apiLimiter = rateLimit({
 });
 
 app.use(express.json({ limit: '10mb' }));
-// app.use(cors({
-//   origin: 'http://localhost:3000',
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
 app.use(cors({
   origin: ['https://j4cks-flux.onrender.com', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -141,48 +138,49 @@ app.get('/api/rate-limit-status', apiLimiter, (req, res) => {
 });
 
 // Test different providers endpoint
-app.post('/api/test-providers', apiLimiter, async (req, res) => {
-  const providers = ['hf', 'fal-ai'];
-  const results = {};
+// app.post('/api/test-providers', apiLimiter, async (req, res) => {
+//   const providers = ['hf', 'fal-ai'];
+//   const results = {};
   
-  for (const provider of providers) {
-    try {
-      console.log(`Testing provider: ${provider}`);
-      const testClient = new InferenceClient({
-        apiKey: process.env.HF_TOKEN,
-        provider: provider
-      });
+//   for (const provider of providers) {
+//     try {
+//       console.log(`Testing provider: ${provider}`);
+//       const testClient = new InferenceClient({
+//         apiKey: process.env.HF_TOKEN,
+//         provider: provider
+//       });
       
-      // Quick test with a simple prompt
-      await testClient.textToImage({
-        model: "black-forest-labs/FLUX.1-schnell",
-        inputs: "test image"
-      });
+//       // Quick test with a simple prompt
+//       await testClient.textToImage({
+//         model: "black-forest-labs/FLUX.1-schnell",
+//         inputs: "test image"
+//       });
       
-      results[provider] = { status: 'working', error: null };
-      console.log(`✅ Provider ${provider} working`);
+//       results[provider] = { status: 'working', error: null };
+//       console.log(`✅ Provider ${provider} working`);
       
-    } catch (error) {
-      results[provider] = { 
-        status: 'failed', 
-        error: error.message,
-        type: error.constructor.name 
-      };
-      console.log(`❌ Provider ${provider} failed:`, error.message);
-    }
-  }
+//     } catch (error) {
+//       results[provider] = { 
+//         status: 'failed', 
+//         error: error.message,
+//         type: error.constructor.name 
+//       };
+//       console.log(`❌ Provider ${provider} failed:`, error.message);
+//     }
+//   }
   
-  res.json({
-    message: 'Provider test results',
-    results: results,
-    timestamp: new Date().toISOString()
-  });
-});
+//   res.json({
+//     message: 'Provider test results',
+//     results: results,
+//     timestamp: new Date().toISOString()
+//   });
+// });
 
 // Image generation endpoint with strict rate limiting
 app.post('/query', imageGenerationLimiter, async (req, res) => {
   console.log('=== /query endpoint hit ===');
   console.log('IP:', req.ip);
+  // const { model, prompt} = req.body;
   console.log('Request body:', req.body);
   
   try {
@@ -216,7 +214,7 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
       });
       
       result = await hfClient.textToImage({
-        model: "black-forest-labs/FLUX.1-schnell",
+        model: req.body.model,
         inputs: req.body.prompt
       });
       console.log('✅ HF provider successful');
@@ -245,7 +243,7 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
     res.json({ 
       imageData: base64Image,
       meta: {
-        model: "black-forest-labs/FLUX.1-schnell",
+        model: req.body.model,
         timestamp: new Date().toISOString(),
         promptLength: req.body.prompt.length
       }
@@ -267,7 +265,8 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+// Render version of app.listen():
+app.listen(PORT, '0.0.0.0', () => {
   console.log('=== Server Started ===');
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Rate limiting: ${RATE_LIMIT_MAX} requests per ${RATE_LIMIT_WINDOW / 1000}s`);

@@ -1,7 +1,8 @@
 {
   "name": "flux-demo",
   "version": "0.4.0",
-  "description": "HuggingFace endpoint demo",
+
+  "description": "HuggingFace Gen AI demo",
   "keywords": [
     "HuggingFace",
     "flux"
@@ -15,10 +16,10 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test",
-    "build": "cd webapp/client && npm install && npm run build && cd ../server && npm install",
-    "dev": "concurrently \"cd ./webapp/server && npm run dev\" \"cd ./webapp/client && npm run dev\"",
-    "start": "cd webapp/server && node index.js"
+    "test": "echo \"No tests specified\" && exit 0",
+    "install:all": "npm install && cd webapp/server && npm install && cd ../client && npm install",
+    "build:client": "cd webapp/client && npm run build",
+    "dev": "\"cd webapp/server && npm run dev\" \"cd webapp/client && npm run dev\""
   },
   "dependencies": {
     "cors": "^2.8.5",

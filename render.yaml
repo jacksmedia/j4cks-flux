@@ -1,0 +1,18 @@
+# render.com config
+services:
+  - type: web
+    name: flux-server
+    env: node
+    buildCommand: cd webapp/server && npm install
+    startCommand: cd webapp/server && npm start
+    envVars:
+      - key: HF_TOKEN
+        fromSecret: true
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /health
+
+  - type: static
+    name: flux-demo-client
+    buildCommand: cd webapp/client && npm install && npm run build
+    staticPublishPath: webapp/client/dist

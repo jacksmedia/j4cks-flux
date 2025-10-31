@@ -9,39 +9,30 @@ const App = () => {
   const [customPrompt, setCustomPrompt] = useState('colorful aesthetic');
 
 
-    // Tests server connection
-  const testServer = async () => {
-    try {
-      console.log('Testing server connectivity...');
-      const response = await fetch('http://localhost:3001/test');
-      const data = await response.json();
-      console.log('Server test successful:', data);
-      alert(`Server is working! Response: ${data.message}`);
-    } catch (error) {
-      console.error('Server test failed:', error);
-      alert(`Server test failed: ${error.message}`);
+  // Multiple HF models available
+  // Prompt uses user input + various premade styling tokens
+  const artStyles =[
+    {
+      id: 'pixel',
+      label: 'Pixel Art',
+      model: 'black-forest-labs/FLUX.1-dev',
+      promptTemplate: (userInput) => `${userInput}, (pixel art, pixelated 1.4), (masterpiece, exceptional, best aesthetic, best quality, masterpiece, extremely detailed 1.2)`
+    },
+    {
+      id: 'anime',
+      label: 'Anime',
+      model: 'Qwen/Qwen-Image',
+      promptTemplate: (userInput) => `${userInput}, anime style, vibrant colors, detailed, high quality`
+    },
+    {
+      id: 'realistic',
+      label: 'Realistic',
+      model: 'stabilityai/stable-diffusion-2',
+      promptTemplate: (userInput) => `${userInput}, photorealistic, 8k, detailed, professional photography`
     }
-  };
+  ];
 
-  // Tests request
-  // const testHealth = async () => {
-  //   try {
-  //     console.log('Testing POST endpoint...');
-  //     const response = await fetch('http://localhost:3001/health', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ test: 'data' }),
-  //     });
-  //     const data = await response.json();
-  //     console.log('Health check successful:', data);
-  //     alert(`Health check passed! Server received: ${JSON.stringify(data.body)}`);
-  //   } catch (error) {
-  //     console.error('Health check failed:', error);
-  //     alert(`Health check failed: ${error.message}`);
-  //   }
-  // };
-
-  const handleQuery = async () => {
+  const handleQuery = async (style) => {
     setLoading(true);
     setError(null);
     setImageData(null);
@@ -51,8 +42,9 @@ const App = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          // Prompt uses LoRA trigger word + pixel art styling in lieu of accessing LoRA
-          prompt: `${customPrompt}, (in the style of umempart:1.5), (pixel art 1.3, pixelated:1.5), (vivid colours:1.1), (best quality, masterpiece, extremely detailed:1.2)`
+          model: style.model,
+          // see const artStyles
+          prompt: style.promptTemplate(customPrompt)
         }),
       });
 
@@ -74,51 +66,9 @@ const App = () => {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>HuggingFace FLUX Pixel Art Generator</h1>
+      <h1>HuggingFace Text-to-Image Generator</h1>
       
-      {/* throbbing annular  */}
-      {loading && (
-        <div className='annular-container'>
-          <div className='annular'></div>
-        </div>
-      )}
-
-
-      {/* Debug buttons
-      <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>Debug Tools:</h3>
-        <button 
-          onClick={testServer}
-          style={{
-            padding: '0.5rem 1rem',
-            margin: '0.5rem',
-            backgroundColor: '#0c3516ff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Test Server (GET)
-        </button>
-        <button 
-          onClick={testHealth}
-          style={{
-            padding: '0.5rem 1rem',
-            margin: '0.5rem',
-            backgroundColor: '#117a30ff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Test POST Endpoint
-        </button>
-      </div> */}
-      
-      {/* main app features */}
-            {/* Custom prompt input */}
+      {/* UX:  Custom prompt input */}
       <div style={{ marginBottom: '2rem' }}>
         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
           Describe what you want to create:
@@ -140,11 +90,11 @@ const App = () => {
           maxLength={200}
         />
         <small style={{ color: '#666', fontSize: '0.9rem' }}>
-          Your prompt will be combined with pixel art styling and the LoRA (sub-model) trigger word
+          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model
         </small>
         
-        {/* Show full prompt preview */}
-        <details style={{ marginTop: '1rem' }}>
+        {/* OPTION:  Show full prompt preview -- disabled */}
+        {/* <details style={{ marginTop: '1rem' }}>
           <summary style={{ cursor: 'pointer', color: '#007bff' }}>
             Preview full prompt
           </summary>
@@ -156,27 +106,37 @@ const App = () => {
             fontSize: '0.9rem',
             border: '1px solid #e9ecef'
           }}>
-            "{customPrompt}, (in the style of umempart: 1.5), (pixel art, pixelated:1.3), (masterpiece, exceptional, best aesthetic, best quality, masterpiece, extremely detailed:1.2)"
+            {customPrompt}
           </div>
-        </details>
+        </details> */}
       </div>
+
       
-      <button 
-        onClick={handleQuery} 
-        disabled={loading || !customPrompt.trim()}
-        style={{
-          padding: '1rem 2rem',
-          fontSize: '1rem',
-          backgroundColor: loading || !customPrompt.trim() ? '#ccc' : '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: loading || !customPrompt.trim() ? 'not-allowed' : 'pointer',
-          transition: 'background-color 0.2s'
-        }}
-      >
+      {/* UX:  Render multiple buttons with premade prompt styling */}
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+        {artStyles.map(style => (
+          <button
+            key={style.id}
+            onClick={() => handleQuery(style)}
+            style={{
+              padding: '0.75rem 1.5rem',
+              fontSize: '1rem',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}
+          >
+            Generate {style.label}
+          </button>
+        ))}
+      </div>
+
+
+      <h3>
         {loading ? 'Generating Pixel Art...' : 'Generate Pixel Art'}
-      </button>
+      </h3>
       
       {error && (
         <div style={{
