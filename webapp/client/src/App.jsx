@@ -14,19 +14,19 @@ const App = () => {
   const artStyles =[
     {
       id: 'pixel',
-      label: 'Pixel Art',
+      label: 'Pixel Art 👾',
       model: 'black-forest-labs/FLUX.1-dev',
       promptTemplate: (userInput) => `${userInput}, (pixel art, pixelated 1.4), (masterpiece, exceptional, best aesthetic, best quality, masterpiece, extremely detailed 1.2)`
     },
     {
       id: 'anime',
-      label: 'Anime',
+      label: 'Anime 🎨',
       model: 'Qwen/Qwen-Image',
       promptTemplate: (userInput) => `${userInput}, anime style, vibrant colors, detailed, high quality`
     },
     {
       id: 'realistic',
-      label: 'Realistic',
+      label: 'Realistic 📷',
       model: 'stabilityai/stable-diffusion-2',
       promptTemplate: (userInput) => `${userInput}, photorealistic, 8k, detailed, professional photography`
     }
