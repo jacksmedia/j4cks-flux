@@ -1,11 +1,12 @@
 // client/src/App.jsx
 import { useState } from 'react';
+import './App.css';
 
 const App = () => {
   const [imageData, setImageData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [customPrompt, setCustomPrompt] = useState('a shattered cyberpunk city');
+  const [customPrompt, setCustomPrompt] = useState('colorful aesthetic');
 
 
   // Multiple HF models available

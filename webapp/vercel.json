@@ -2,15 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "webapp/client/public/index.html",
+      "src": "client/dist/**",
       "use": "@vercel/static"
     },
     {
-      "src": "webapp/server/index.js",
+      "src": "server/index.js",
       "use": "@vercel/node",
       "config": { 
         "runtime": "nodejs20.x",
-        "includeFiles": ["webapp/server/**"]
+        "includeFiles": ["server/**"]
       }
     }
   ],
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "webapp/client/public"
+      "dest": "webapp/client/dist"
     }
   ]
 }

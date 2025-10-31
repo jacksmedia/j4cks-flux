@@ -39,11 +39,6 @@ if (typeof process.env.HF_TOKEN !== 'string') {
   process.exit(1);
 }
 
-if (!process.env.HF_TOKEN.startsWith('hf_')) {
-  console.error('❌ HF_TOKEN does not start with hf_');
-  process.exit(1);
-}
-
 console.log('✅ HF_TOKEN validation passed');
 
 // Initialize HuggingFace client with explicit provider
@@ -92,16 +87,11 @@ const apiLimiter = rateLimit({
 
 app.use(express.json({ limit: '10mb' }));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['https://j4cks-flux.onrender.com', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-// app.use(cors({
-//   origin: 'https://localhost:3001',
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Trust proxy for accurate IP addresses (important for Vercel)
 app.set('trust proxy', 1);
@@ -275,8 +265,10 @@ app.post('/query', imageGenerationLimiter, async (req, res) => {
   }
 });
 
-
 // Render version of app.listen():
 app.listen(PORT, '0.0.0.0', () => {
+  console.log('=== Server Started ===');
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📊 Rate limiting: ${RATE_LIMIT_MAX} requests per ${RATE_LIMIT_WINDOW / 1000}s`);
+  console.log(`🔒 Environment: ${isDevelopment ? 'Development' : 'Production'}`);
 });

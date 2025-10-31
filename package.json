@@ -1,6 +1,7 @@
 {
   "name": "flux-demo",
   "version": "0.4.0",
+
   "description": "HuggingFace Gen AI demo",
   "keywords": [
     "HuggingFace",
@@ -26,7 +27,6 @@
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
     "@vitejs/plugin-react": "^4.0.0"
   }
 }
