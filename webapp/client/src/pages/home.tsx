@@ -14,13 +14,13 @@ export default function Home() {
       id: 'pixel',
       label: 'Pixel Art 👾',
       model: 'black-forest-labs/FLUX.1-dev',
-      promptTemplate: (userInput) => `${userInput}, (pixel art, pixelated 1.4), (masterpiece, exceptional, best aesthetic, best quality, masterpiece, extremely detailed 1.2)`
+      promptTemplate: (userInput) => `${userInput}, (pixel art 1.4, pixelated 1.4), (masterpiece, exceptional, best aesthetic, best quality, masterpiece)`
     },
     {
       id: 'anime',
       label: 'Anime 🎨',
       model: 'Qwen/Qwen-Image',
-      promptTemplate: (userInput) => `${userInput}, anime style, vibrant colors, detailed, high quality`
+      promptTemplate: (userInput) => `${userInput}, anime style, vibrant colors, detailed, high quality, masterpiece, exceptional, best aesthetic`
     },
     {
       id: 'realistic',
@@ -63,9 +63,12 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>Simple Text-to-Image Generator</h1>
+    <div className="justify-center-safe pl-13">
       
+      <div className="justify-center-safe">
+      <h1>Simple Text-to-Image Generator</h1>
+      </div>
+
       {/* UX:  Custom prompt input */}
       <div style={{ marginBottom: '2rem' }}>
         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
@@ -87,10 +90,13 @@ export default function Home() {
           }}
           maxLength={200}
         />
-        <small className="font-medium">
-          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model<br/>
-          Rate limiting is in effect to prevent abuse
-        </small>
+        <div className="font-medium justify-center">
+          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model.
+          Rate limiting is in effect to prevent abuse.
+          
+          Developed by <a href="https://jacks.media">Jacks.Media</a>
+          
+        </div>
         
         {/* OPTION:  Show full prompt preview -- disabled */}
         {/* <details style={{ marginTop: '1rem' }}>
@@ -120,7 +126,7 @@ export default function Home() {
             style={{
               padding: '0.75rem 1.5rem',
               fontSize: '1rem',
-              backgroundColor: '#007bff',
+              backgroundColor: '#0084d1',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
