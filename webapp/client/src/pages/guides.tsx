@@ -1,3 +1,5 @@
+import Layout from '../pageLayout';
+
 export default function Guides() {
-  return <div>Guides Test</div>
+  return (<Layout title="Guides" body="I enjoy writing technical guides and documentation, both for my professional skillset and for my hobbies." />);
 }

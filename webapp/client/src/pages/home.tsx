@@ -63,7 +63,7 @@ export default function Home() {
   };
 
   return (
-    <div className="justify-center-safe pl-13">
+    <div className="justify-center-safe pl-13" style={{width:'90vw', textAlign:'center'}}>
       
       <div className="justify-center-safe">
       <h1>Simple Text-to-Image Generator</h1>
@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* UX:  Custom prompt input */}
       <div style={{ marginBottom: '2rem' }}>
-        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+        <label className="pt-3" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
           Describe what you want to portray:
         </label>
         <input
@@ -91,7 +91,7 @@ export default function Home() {
           maxLength={200}
         />
         <div className="font-medium justify-center">
-          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model.
+          Your prompt will be combined with some other tokens and sent to an open source Gen AI text-to-image model.<br/>
           Rate limiting is in effect to prevent abuse.
           
           Developed by <a href="https://jacks.media">Jacks.Media</a>
