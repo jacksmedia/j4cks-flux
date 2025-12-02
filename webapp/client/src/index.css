@@ -23,12 +23,12 @@
 }
 
 a {
-  font-weight: 500;
+  font-weight: 800;
   color: #3bd6f1;
   text-decoration: inherit;
 }
 a:hover {
-  color: #399cad;
+  animation: textColors4 4s linear infinite !important;
 }
 
 body {
@@ -66,6 +66,21 @@ button:focus-visible {
 .wrapped {
   text-wrap: wrap;
 }
+
+/* for markdown info pages */
+.p-10 {
+  line-height: 2rem;
+  margin: 1rem;
+}
+
+ul {
+  margin-left: 12vw;
+}
+
+li {
+  line-height: 2.7rem;
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -125,6 +140,13 @@ button:focus-visible {
   animation: spin 2s linear infinite, colorShift 30s linear infinite;
 }
 
+.link1 { animation: textColors1 10s linear infinite !important; }
+.link2 { animation: textColors2 10s linear infinite !important; }
+.link3 { animation: textColors3 10s linear infinite !important; }
+.link4 { animation: textColors4 10s linear infinite !important; }
+.link5 { animation: textColors5 10s linear infinite !important; }
+
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -139,6 +161,47 @@ button:focus-visible {
   80% { border-top-color: #ee5a6f; }
   100% { border-top-color: #ff6b6b; }
 }
+@keyframes textColors1 {
+  0% { color: #ff6b6b; }
+  20% { color: #feca57; }
+  40% { color: #48dbfb; }
+  60% { color: #1dd1a1; }
+  80% { color: #ee5a6f; }
+  100% { color: #ff6b6b; }
+}
+@keyframes textColors2 {
+  0% { color: #ee5a6f; }
+  20% { color: #ff6b6b; }
+  40% { color: #feca57; }
+  60% { color: #48dbfb; }
+  80% { color: #1dd1a1; }
+  100% { color: #ee5a6f; }
+}
+@keyframes textColors3 {
+  0% { color: #1dd1a1; }
+  20% { color: #ee5a6f; }
+  40% { color: #ff6b6b; }
+  60% { color: #feca57; }
+  80% { color: #48dbfb; }
+  100% { color: #1dd1a1; }
+}
+@keyframes textColors4 {
+  0% { color: #48dbfb; }
+  20% { color: #1dd1a1; }
+  40% { color: #ee5a6f; }
+  60% { color: #ff6b6b; }
+  80% { color: #feca57; }
+  100% { color: #48dbfb; }
+}
+@keyframes textColors5 {
+  0% { color: #feca57; }
+  20% { color: #48dbfb; }
+  40% { color: #1dd1a1; }
+  60% { color: #ee5a6f; }
+  80% { color: #ff6b6b; }
+  100% { color: #feca57; }
+}
+
 
 
 .card {
