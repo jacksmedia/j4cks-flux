@@ -3,7 +3,7 @@ import { useState } from "react";
 // adding image gallery for persistent thumbnails
 interface SavedImage {
   id: string;
-  imageData: string;
+  imageData: any;
   prompt: string;
   style: string;
   timestamp: number;
@@ -73,8 +73,6 @@ export default function Home() {
       };
       setSavedImages(prev => [newImage, ...prev]); // pushes to top of gallery stack
 
-
-
     } catch (error) {
       console.error('Error contacting server:', error);
       setError(error.message);
@@ -82,6 +80,13 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  // Loads a gallery image back into main image display
+  const handleLoadSavedImage = (saved: SavedImage) => {
+    setImageData(saved.imageData);
+    setCustomPrompt(saved.prompt);
+  };
+
 
   return (
     <div className="justify-center-safe pl-13" style={{width:'90vw', textAlign:'center'}}>
@@ -160,6 +165,7 @@ export default function Home() {
         </div>
       )}
       
+       {/* Current/Main Image Display */}
       {imageData && (
         <div style={{ marginTop: '2rem' }}>
           <h2>Generated Image:</h2>
@@ -176,6 +182,88 @@ export default function Home() {
           />
         </div>
       )}
+
+      {/* Gallery */}
+      {savedImages.length > 0 && (
+        <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '2px solid #ddd' }}>
+          <h2>Previously Generated Images ({savedImages.length})</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '1rem',
+            marginTop: '1rem'
+          }}>
+            {savedImages.map((saved) => (
+              <div
+                key={saved.id}
+                onClick={() => handleLoadSavedImage(saved)}
+                style={{
+                  cursor: 'pointer',
+                  border: imageData === saved.imageData ? '3px solid #0084d1' : '2px solid #ddd',
+                  borderRadius: '8px',
+                  padding: '0.5rem',
+                  backgroundColor: '#f9f9f9',
+                  transition: 'transform 0.2s, box-shadow 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <img
+                  src={`data:image/png;base64,${saved.imageData}`}
+                  alt={`Generated: ${saved.prompt}`}
+                  style={{
+                    width: '100%',
+                    height: '150px',
+                    objectFit: 'cover',
+                    borderRadius: '4px'
+                  }}
+                />
+                <div style={{ 
+                  marginTop: '0.5rem', 
+                  fontSize: '0.85rem',
+                  color: '#666'
+                }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
+                    {saved.style}
+                  </div>
+                  <div style={{ 
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {saved.prompt}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Optional: Clear history button */}
+          <button
+            onClick={() => setSavedImages([])}
+            style={{
+              marginTop: '1.5rem',
+              padding: '0.5rem 1rem',
+              fontSize: '0.9rem',
+              backgroundColor: '#c54451ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Delete Images
+          </button>
+        </div>
+      )}
+
+
     </div>
   );
 }
