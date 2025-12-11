@@ -1,11 +1,20 @@
 import { useState } from "react";
 
+// adding image gallery for persistent thumbnails
+interface SavedImage {
+  id: string;
+  imageData: string;
+  prompt: string;
+  style: string;
+  timestamp: number;
+}
+
 export default function Home() {
     const [imageData, setImageData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [customPrompt, setCustomPrompt] = useState('iconic tall grey castle near the blue lake');
-
+    const [savedImages, setSavedImages] = useState<SavedImage[]>([]); 
 
     // Multiple HF models available
     // Prompt uses user input + various premade styling tokens
@@ -54,6 +63,18 @@ export default function Home() {
       const data = await response.json();
       setImageData(data.imageData);
 
+      // saves image to gallery
+      const newImage: SavedImage = {
+        id: Date.now().toString(),
+        imageData: data.imageData,
+        prompt: customPrompt,
+        style: style.label,
+        timestamp: Date.now()
+      };
+      setSavedImages(prev => [newImage, ...prev]); // pushes to top of gallery stack
+
+
+
     } catch (error) {
       console.error('Error contacting server:', error);
       setError(error.message);
@@ -98,22 +119,6 @@ export default function Home() {
           
         </div>
         
-        {/* OPTION:  Show full prompt preview -- disabled */}
-        {/* <details style={{ marginTop: '1rem' }}>
-          <summary style={{ cursor: 'pointer', color: '#007bff' }}>
-            Preview full prompt
-          </summary>
-          <div style={{ 
-            marginTop: '0.5rem',
-            padding: '1rem',
-            backgroundColor: '#242424ff',
-            borderRadius: '4px',
-            fontSize: '0.9rem',
-            border: '1px solid #e9ecef'
-          }}>
-            {customPrompt}
-          </div>
-        </details> */}
       </div>
 
       
