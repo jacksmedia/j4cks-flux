@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // adding image gallery for persistent thumbnails
 interface SavedImage {
@@ -15,6 +15,32 @@ export default function Home() {
     const [error, setError] = useState(null);
     const [customPrompt, setCustomPrompt] = useState('iconic tall grey castle near the blue lake');
     const [savedImages, setSavedImages] = useState<SavedImage[]>([]); 
+
+    // Loads from localStorage
+    useEffect(() => {
+      try {
+        const stored = localStorage.getItem('generatedImages');
+      } catch (error) {
+        console.error('Could not load saved images from localStorage:', error);
+        // Clears corrupt local data
+        localStorage.removeItem('generatedImages');
+      }
+    });
+
+    // Saves to localStorage
+    useEffect(() => {
+      try {
+        if (savedImages.length > 0) {
+          localStorage.setItem('generatedImages', JSON.stringify(savedImages));
+          console.log(`Saved ${savedImages.length} images to localStorage`)
+        } else {
+          // Fallback for empty array, zero out the key
+          localStorage.removeItem('generatedImages');
+        }
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+      }
+    }, [savedImages]);
 
     // Multiple HF models available
     // Prompt uses user input + various premade styling tokens
@@ -49,8 +75,7 @@ export default function Home() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: style.model,
-          // see const artStyles
+          model: style.model,  // see const artStyles
           prompt: style.promptTemplate(customPrompt)
         }),
       });
@@ -63,7 +88,7 @@ export default function Home() {
       const data = await response.json();
       setImageData(data.imageData);
 
-      // saves image to gallery
+      // Save image to gallery
       const newImage: SavedImage = {
         id: Date.now().toString(),
         imageData: data.imageData,
@@ -71,7 +96,8 @@ export default function Home() {
         style: style.label,
         timestamp: Date.now()
       };
-      setSavedImages(prev => [newImage, ...prev]); // pushes to top of gallery stack
+      // pushes to top of gallery stack; now useEffect for localStorage
+      setSavedImages(prev => [newImage, ...prev]); 
 
     } catch (error) {
       console.error('Error contacting server:', error);
@@ -87,6 +113,22 @@ export default function Home() {
     setCustomPrompt(saved.prompt);
   };
 
+  // Add an option to delete one image
+
+  // For display of localStorage available
+  const getStorageInfo = () => {
+    try {
+      const localStorageUsed = localStorage.getItem('generatedImages');
+      if (localStorageUsed) {
+        const sizeInBytes = new Blob([localStorageUsed]).size;
+        const sizeInKB = (sizeInBytes / 1024).toFixed(2);
+        const sizeInMB = (sizeInBytes / (1024*1024)).toFixed(2);
+        return +sizeInMB > 1 ? `${sizeInMB} MB` : `${sizeInKB} KB`;
+      }
+    } catch {
+      return 'Unknown';
+    }
+  };
 
   return (
     <div className="justify-center-safe pl-13" style={{width:'90vw', textAlign:'center'}}>
@@ -187,6 +229,15 @@ export default function Home() {
       {savedImages.length > 0 && (
         <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '2px solid #ddd' }}>
           <h2>Previously Generated Images ({savedImages.length})</h2>
+          
+          <div style={{ 
+              fontSize: '0.85rem', 
+              color: '#666', 
+              marginBottom: '1rem' 
+            }}>
+              Storage used on this device: {getStorageInfo()}
+          </div>
+
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
@@ -194,6 +245,46 @@ export default function Home() {
             marginTop: '1rem'
           }}>
             {savedImages.map((saved) => (
+              <div
+                key={saved.id}
+                style={{
+                  position: 'relative',
+                  border: imageData === saved.imageData ? '3px solid #0084d1' : '2px solid #ddd',
+                  borderRadius: '8px',
+                  padding: '0.5rem',
+                  backgroundColor: '#f9f9f9',
+                  transition: 'transform 0.2s, box-shadow 0.2s'
+                }}
+              >
+              {/* Delete button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteImage(saved.id);
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '0.5rem',
+                  right: '0.5rem',
+                  backgroundColor: 'rgba(220, 53, 69, 0.9)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '24px',
+                  height: '24px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+                title="Delete this image"
+              >
+                ×
+              </button>
+
+              
               <div
                 key={saved.id}
                 onClick={() => handleLoadSavedImage(saved)}
@@ -244,9 +335,13 @@ export default function Home() {
             ))}
           </div>
           
-          {/* Optional: Clear history button */}
+          {/* Clear history button */}
           <button
-            onClick={() => setSavedImages([])}
+            onClick={() => {
+              if (confirm(`You want to delete all ${savedImages.length} images on this device?`)) {
+                setSavedImages([]);
+              }
+            }}
             style={{
               marginTop: '1.5rem',
               padding: '0.5rem 1rem',
