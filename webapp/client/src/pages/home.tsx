@@ -114,6 +114,9 @@ export default function Home() {
   };
 
   // Add an option to delete one image
+  const handleDeleteImage = (imageId: string) => {
+    setSavedImages(prev => prev.filter(img => img.id !== imageId));
+  };
 
   // For display of localStorage available
   const getStorageInfo = () => {
@@ -332,6 +335,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
             ))}
           </div>
           
@@ -353,12 +357,10 @@ export default function Home() {
               cursor: 'pointer'
             }}
           >
-            Delete Images
+            Delete All Images
           </button>
         </div>
       )}
-
-
     </div>
   );
 }
