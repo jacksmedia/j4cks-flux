@@ -20,12 +20,17 @@ export default function Home() {
     useEffect(() => {
       try {
         const stored = localStorage.getItem('generatedImages');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setSavedImages(parsed);
+          console.log(`Loaded ${parsed.length} images from localStorage`);
+        }
       } catch (error) {
         console.error('Could not load saved images from localStorage:', error);
         // Clears corrupt local data
         localStorage.removeItem('generatedImages');
       }
-    });
+    }, []);
 
     // Saves to localStorage
     useEffect(() => {
