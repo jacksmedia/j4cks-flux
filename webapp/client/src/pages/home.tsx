@@ -142,7 +142,7 @@ export default function Home() {
     <div className="justify-center-safe pl-13" style={{width:'90vw', textAlign:'center'}}>
       
       <div className="justify-center-safe">
-      <h1>Simple Text-to-Image Generator</h1>
+      <h1 className="gradient-text py-6">Simple Text-to-Image Generator</h1>
       </div>
 
       {/* UX:  Custom prompt input */}
@@ -156,7 +156,7 @@ export default function Home() {
           onChange={(e) => setCustomPrompt(e.target.value)}
           placeholder="iconic tall grey castle near the blue lake"
           style={{
-            width: '100%',
+            width: '80%',
             padding: '0.75rem',
             fontSize: '1rem',
             border: '2px solid #ddd',

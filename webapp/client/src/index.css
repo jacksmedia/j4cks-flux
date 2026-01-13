@@ -96,6 +96,16 @@ li {
 }
 
 
+.gradient-text {
+  background: -webkit-linear-gradient(#eee, #f3f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s24 {
+  font-size: 24px;
+}
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
