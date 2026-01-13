@@ -186,12 +186,14 @@ export default function Home() {
             style={{
               padding: '0.75rem 1.5rem',
               fontSize: '1rem',
-              backgroundColor: '#0084d1',
-              color: 'white',
+              color: 'black',
               border: 'none',
               borderRadius: '8px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              borderStyle: 'outset',
+              borderWidth: '2px'
             }}
+            className="llm-button"
           >
             Generate {style.label}
           </button>

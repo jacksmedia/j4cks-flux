@@ -97,13 +97,20 @@ li {
 
 
 .gradient-text {
-  background: -webkit-linear-gradient(#eee, #f3f9);
+  background: -webkit-linear-gradient(#eee, #c54451);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .s24 {
   font-size: 24px;
 }
+
+
+.llm-button {
+  background: radial-gradient(#48dbfb, #646cff);
+}
+
+
 
 
 .logo {
