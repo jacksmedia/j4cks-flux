@@ -10,11 +10,6 @@ export default function Navbar() {
         <div className="relative flex h-16 items-center justify-between">
           
           {/* Logo/Brand & Mobile menu button */}
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <Link to="/" className="text-xl font-bold">
-              AI-Image<br/><span style={{fontSize:'12px'}}>by Jacks Media</span>
-            </Link>
-          </div>
            <button
               type="button" 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
