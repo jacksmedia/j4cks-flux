@@ -63,6 +63,13 @@ export default function Navbar() {
             >
               Guides
             </Link>
+            <Link
+              to="https://kcal-pi.vercel.app/"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              kCal Beta
+            </Link>
           </div>
         </div>
       )}
