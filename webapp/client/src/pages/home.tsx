@@ -76,7 +76,7 @@ export default function Home() {
     setImageData(null);
 
     try {
-      const response = await fetch('/query', {
+      const response = await fetch('/api/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
