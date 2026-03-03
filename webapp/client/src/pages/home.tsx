@@ -54,19 +54,19 @@ export default function Home() {
       id: 'pixel',
       label: 'Pixel Art 👾',
       model: 'black-forest-labs/FLUX.1-dev',
-      promptTemplate: (userInput) => `${userInput}, (pixel art 1.4, pixelated 1.4), (masterpiece, exceptional, best aesthetic, best quality, masterpiece)`
+      promptTemplate: (userInput) => `${userInput}, (pixel art 1.4, pixelated 1.4, color saturation, Super Nintendo aesthetic, retro game art, sprite art, game asset)`
     },
     {
       id: 'anime',
       label: 'Anime 🎨',
       model: 'Qwen/Qwen-Image',
-      promptTemplate: (userInput) => `${userInput}, anime style, vibrant colors, detailed, high quality, masterpiece, exceptional, best aesthetic`
+      promptTemplate: (userInput) => `${userInput}, (90s anime style, vibrant colors, detailed, cel shaded, anime aesthetic, masterpiece, exceptional)`
     },
     {
       id: 'realistic',
       label: 'Realistic 📷',
       model: 'stabilityai/stable-diffusion-2',
-      promptTemplate: (userInput) => `${userInput}, photorealistic, 8k, detailed, professional photography`
+      promptTemplate: (userInput) => `${userInput}, (photorealistic, 8k, detailed, professional photography, action shot, Cinematic film still, shot on v-raptor XL, film grain, vignette, color graded, post-processed, cinematic)`
     }
   ];
 
